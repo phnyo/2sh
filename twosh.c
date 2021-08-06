@@ -1,25 +1,5 @@
 #include "./twosh.h"
 
-char* twosh_read_line()
-{
-	char *line;
-	ssize_t bufsize = 0;
-
-	if (getline(&line, &bufsize, stdin) == -1)
-	{
-		if (feof(stdin))
-		{
-			exit(EXIT_SUCCESS);
-		}
-		else
-		{
-			perror("readline");
-			exit(EXIT_FAILURE);
-		}
-	}
-	return line;
-}
-
 void twosh_loop(void)
 {
 	char *line;
@@ -29,14 +9,10 @@ void twosh_loop(void)
 	do {
 		printf("$ ");
 		line = twosh_read_line();
-		//args = 2sh_split_line(line);
+		args = twosh_split_line(line);
 		//status = 2sh_execute(args);
 		free(line);
-		while (*args)
-		{
-			free(*args);
-			args++;
-		}
+		free(args);
 	} while (status);
 }
 
